@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.btn{
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btnFill{
+    background-color: #7d2424;
+    color: rgb(157, 48, 48);
+}
+
+.button:disabled{
+    background: rgb(black, 0.4);
+}

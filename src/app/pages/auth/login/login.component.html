@@ -1,0 +1,46 @@
+<main>
+  <div class="login-container">
+    <div [formGroup]="loginForm" class="login-content">
+      <p class="title">Welcome Back!</p>
+      <p class="sub-title">Login to your account</p>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="johndoe@example.com"
+          formControlName="email"
+        />
+        <mat-error *ngIf="loginForm.controls['email'].hasError('required')"
+          >Email is required</mat-error>
+        <mat-error *ngIf="loginForm.controls['email'].hasError('email')"
+          >Invalid Email</mat-error>
+      </mat-form-field>
+      <!-- <p class="forgot-password">Forgot Password</p> -->
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          placeholder="p@5sw0rd"
+          aria-label="Password"
+          formControlName="password"
+        />
+        <mat-icon matSuffix (click)="togglePasswordVisibility()">{{
+          hide ? "visibility" : "visibility_off"
+        }}</mat-icon>
+        <mat-error *ngIf="loginForm.controls['password'].hasError('required')"
+          >Password is required</mat-error>
+      </mat-form-field>
+      <button class="btn btn-fill" (click)="loginWithEmailAndPassword()" [disabled]="loginForm.invalid">Login</button>
+      <p class="alternative">Don't have an account? <span [routerLink]="['/auth/register']">Register</span></p>
+
+      <div class="or-line-divider">
+        <p>or</p>
+      </div>
+      <div class="google-card" (click)="loginWithGoogle()">
+        <app-google-login-card></app-google-login-card>
+      </div>
+    </div>
+  </div>
+</main>
