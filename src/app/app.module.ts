@@ -13,9 +13,15 @@ import { GoogleLoginCardComponent } from 'src/components/google-login-card/googl
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 import { environment } from 'src/environments/environment';
 import { HomeComponent } from './pages/dashboard/home/home.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
+import { MoneyTransferComponent } from './pages/dashboard/money-transfer/money-transfer.component';
+import { NavbarComponent } from 'src/components/navbar/navbar.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +29,9 @@ import { HomeComponent } from './pages/dashboard/home/home.component';
     RegisterComponent,
     LoginComponent,
     GoogleLoginCardComponent,
-    HomeComponent
+    NavbarComponent,
+    HomeComponent,
+    MoneyTransferComponent
     ],
   imports: [
     BrowserModule,
@@ -34,8 +42,11 @@ import { HomeComponent } from './pages/dashboard/home/home.component';
     MatIconModule,
     ReactiveFormsModule,
     FormsModule,
+    MatToolbarModule,
+    MatCardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFirestoreModule
 
   ],
   providers: [],

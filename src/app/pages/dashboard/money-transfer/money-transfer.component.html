@@ -1,0 +1,27 @@
+<app-navbar></app-navbar>
+<div class="money-transfer-container">
+  <h3>Money Transfer</h3>
+  <p>Current Balance: <span> KES. {{ walletData.wallet_balance }}</span></p>
+  <div [formGroup]="moneyTransferForm" class="main" >
+    <mat-form-field appearance="outline"  *ngIf="showEmailInput">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        placeholder="johndoe@example.com"
+        formControlName="email"
+      />
+      <mat-error *ngIf="moneyTransferForm.controls['email'].hasError('required')"
+        >Email is required</mat-error
+      >
+      <mat-error *ngIf="moneyTransferForm.controls['email'].hasError('email')"
+        >Invalid Email</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Amount (KES)</mat-label>
+      <input matInput type="text" placeholder="10" formControlName="amount" />
+    </mat-form-field>
+  </div>
+  <button class="btn btn-fill" (click)="showEmailInput? transferMoney() : topUp()" >Send</button>
+</div>
