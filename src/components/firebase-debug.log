@@ -1,0 +1,52 @@
+[debug] [2023-11-16T09:31:27.010Z] ----------------------------------------------------------------------
+[debug] [2023-11-16T09:31:27.011Z] Command:       /Users/Shaleen/.nvm/versions/node/v18.16.1/bin/node /Users/Shaleen/.nvm/versions/node/v18.16.1/bin/firebase init
+[debug] [2023-11-16T09:31:27.012Z] CLI Version:   12.9.1
+[debug] [2023-11-16T09:31:27.012Z] Platform:      darwin
+[debug] [2023-11-16T09:31:27.012Z] Node Version:  v18.16.1
+[debug] [2023-11-16T09:31:27.013Z] Time:          Thu Nov 16 2023 12:31:27 GMT+0300 (East Africa Time)
+[debug] [2023-11-16T09:31:27.013Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-11-16T09:31:27.071Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-11-16T09:31:27.071Z] > authorizing via signed-in user (shaleenmuiruri@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/Shaleen/Projects/Personal-Projects/Quikk-Moolah-App
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2023-11-16T09:31:31.727Z] Using project from CLI flag: quikk-moolah
+[debug] [2023-11-16T09:31:31.729Z] > refreshing access token with scopes: []
+[debug] [2023-11-16T09:31:31.730Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-11-16T09:31:31.730Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-11-16T09:31:32.145Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-11-16T09:31:32.145Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-11-16T09:31:32.157Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/quikk-moolah [none]
+[debug] [2023-11-16T09:31:32.661Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/quikk-moolah 200
+[debug] [2023-11-16T09:31:32.662Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/quikk-moolah {"projectId":"quikk-moolah","projectNumber":"170129750450","displayName":"Quikk-Moolah","name":"projects/quikk-moolah","resources":{"hostingSite":"quikk-moolah","realtimeDatabaseInstance":"quikk-moolah-default-rtdb"},"state":"ACTIVE","etag":"1_3d9872e7-3135-4d5b-bbf7-67ef2e01f91a"}
+[info] i  Using project quikk-moolah (Quikk-Moolah) 
+[info] 
+=== Hosting Setup
+[debug] [2023-11-16T09:31:32.671Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/quikk-moolah [none]
+[debug] [2023-11-16T09:31:33.241Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/quikk-moolah 200
+[debug] [2023-11-16T09:31:33.242Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/quikk-moolah {"projectId":"quikk-moolah","projectNumber":"170129750450","displayName":"Quikk-Moolah","name":"projects/quikk-moolah","resources":{"hostingSite":"quikk-moolah","realtimeDatabaseInstance":"quikk-moolah-default-rtdb"},"state":"ACTIVE","etag":"1_3d9872e7-3135-4d5b-bbf7-67ef2e01f91a"}
+[info] 
+[info] Your public directory is the folder (relative to your project directory) that
+[info] will contain Hosting assets to be uploaded with firebase deploy. If you
+[info] have a build process for your assets, use your build's output directory.
+[info] 
