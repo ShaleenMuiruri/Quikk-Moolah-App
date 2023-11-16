@@ -13,12 +13,10 @@ export class NavbarComponent {
   logout() {
     this.authService.logout()
       .then(() => {
-        // Redirect to home page after successful logout
         this.router.navigateByUrl('auth/login');
       })
       .catch((error) => {
-        // Handle logout error, if any
-        console.error('Logout error:', error);
+        error
       });
   }
 }

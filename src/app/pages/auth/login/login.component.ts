@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable } from 'rxjs';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 export interface WalletItem {
   user_id: string;
   wallet_balance: number;
@@ -24,6 +25,7 @@ export interface UserItem {
 })
 export class LoginComponent {
   hide: boolean = true;
+  loading: boolean = false;
 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -37,7 +39,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private snackbarService: SnackbarService
   ) {
     this.walletCollection = afs.collection<WalletItem>('wallet');
     this.walletItems = this.walletCollection.valueChanges();
@@ -48,7 +51,7 @@ export class LoginComponent {
   loginWithGoogle() {
     this.authService
       .signInWithGoogle()
-      .then(async (res: any) => {
+      .then(async (res) => {
         this.router.navigateByUrl('dashboard/home');
         const uid = res.user.uid;
 
@@ -60,27 +63,31 @@ export class LoginComponent {
         if (!userExists) {
           this.addUserItem({ user_id: uid, email_address: res.user.email });
         }
+        this.snackbarService.openSnackBar("Login Successful");
       })
-      .catch((error: any) => {
-        console.error(error);
+      .catch((err) => {
+        this.snackbarService.openSnackBar(err);
       });
   }
 
   loginWithEmailAndPassword() {
+    this.loading = true;
     const payload = Object.assign(this.loginForm.value);
     this.authService
       .signInWithEmailAndPassword(payload)
-      .then(async (res: any) => {
+      .then(async (res) => {
         this.router.navigateByUrl('dashboard/home');
-
         const uid = res.user.uid;
         const walletExists = await this.checkWalletExists(uid);
         if (!walletExists) {
           this.addWalletItem({ user_id: uid, wallet_balance: 0 });
         }
+        this.snackbarService.openSnackBar("Login Successful");
+        this.loading = false;
       })
-      .catch((error: any) => {
-        console.error(error);
+      .catch((err) => {
+        this.loading = false;
+        this.snackbarService.openSnackBar(err.message);
       });
   }
 
@@ -97,9 +104,6 @@ export class LoginComponent {
   addUserItem(item: UserItem) {
     this.usersCollection.add(item);
   }
-
-
-
 
   async checkWalletExists(uid: string): Promise<boolean> {
     const snapshot = await this.walletCollection.ref

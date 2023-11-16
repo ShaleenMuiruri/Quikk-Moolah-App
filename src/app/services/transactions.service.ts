@@ -29,18 +29,20 @@ export class TransactionsService {
 
   async getTotalTransfered(userId: string): Promise<number> {
     let totalAmount = 0;
-
+  
     try {
       const querySnapshot = await this.getTransactionsByUserId(userId);
-
+  
       querySnapshot.forEach((doc) => {
         const transaction = doc.data() as TransactionItem;
-        totalAmount += transaction.trans_amount;
+        if (transaction.trans_type === "transfer") {
+          totalAmount += transaction.trans_amount;
+        }
       });
     } catch (error) {
-      console.error('Error getting transactions:', error);
+      throw error;
     }
-
+  
     return totalAmount;
   }
 

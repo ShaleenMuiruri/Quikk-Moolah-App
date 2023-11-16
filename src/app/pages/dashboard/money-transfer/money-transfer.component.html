@@ -1,9 +1,13 @@
 <app-navbar></app-navbar>
 <div class="money-transfer-container">
-  <h3>Money Transfer</h3>
-  <p>Current Balance: <span> KES. {{ walletData.wallet_balance }}</span></p>
-  <div [formGroup]="moneyTransferForm" class="main" >
-    <mat-form-field appearance="outline"  *ngIf="showEmailInput">
+  <h3>
+    {{ showEmailInput ? "Money Transfer" : "Money Top Up" }}
+  </h3>
+  <p>
+    Current Balance: <span> KES. {{ walletData.wallet_balance }}</span>
+  </p>
+  <div [formGroup]="moneyTransferForm" class="main">
+    <mat-form-field appearance="outline" *ngIf="showEmailInput">
       <mat-label>Email</mat-label>
       <input
         matInput
@@ -11,7 +15,8 @@
         placeholder="johndoe@example.com"
         formControlName="email"
       />
-      <mat-error *ngIf="moneyTransferForm.controls['email'].hasError('required')"
+      <mat-error
+        *ngIf="moneyTransferForm.controls['email'].hasError('required')"
         >Email is required</mat-error
       >
       <mat-error *ngIf="moneyTransferForm.controls['email'].hasError('email')"
@@ -21,10 +26,20 @@
     <mat-form-field appearance="outline">
       <mat-label>Amount (KES)</mat-label>
       <input matInput type="text" placeholder="10" formControlName="amount" />
-      <mat-error *ngIf="moneyTransferForm.controls['amount'].hasError('required')"
+      <mat-error
+        *ngIf="moneyTransferForm.controls['amount'].hasError('required')"
         >Amount is required</mat-error
       >
     </mat-form-field>
-    <button class="btn btn-fill" (click)="showEmailInput? transferMoney() : topUp()" [disabled]="moneyTransferForm.invalid">Send</button>
+    <button
+      class="btn btn-fill"
+      (click)="showEmailInput ? transferMoney() : topUp()"
+      [disabled]="loading || moneyTransferForm.invalid"
+    >
+      {{ showEmailInput ? "Send" : "Top Up" }}
+    </button>
+    <button class="btn back-btn-fill" [routerLink]="['/dashboard/home']">
+      Back
+    </button>
   </div>
 </div>

@@ -22,6 +22,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MoneyTransferComponent } from './pages/dashboard/money-transfer/money-transfer.component';
 import { NavbarComponent } from 'src/components/navbar/navbar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { LandingComponent } from './pages/landing/landing.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NavbarComponent,
     HomeComponent,
     MoneyTransferComponent,
+    LandingComponent
   ],
   imports: [
     BrowserModule,
@@ -48,6 +51,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AngularFireAuthModule,
     AngularFirestoreModule,
     NgbModule,
+    MatSnackBarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],

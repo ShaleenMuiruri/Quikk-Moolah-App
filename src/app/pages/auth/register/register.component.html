@@ -57,7 +57,7 @@
         >
       </mat-form-field>
 
-      <button class="btn btn-fill" (click)="registerWithEmailAndPassword()" [disabled]="registerForm.invalid">Register</button>
+      <button class="btn btn-fill" (click)="registerWithEmailAndPassword()" [disabled]="loading || registerForm.invalid">Register</button>
       <p class="alternative">
         Have an account? <span [routerLink]="['/auth/login']">Login</span>
       </p>

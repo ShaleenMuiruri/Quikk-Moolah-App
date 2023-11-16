@@ -12,14 +12,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
 import { WalletService } from 'src/app/services/wallet.service';
-import { UserItem } from '../../auth/register/register.component';
 import {
   TransactionItem,
   TransactionsService,
 } from 'src/app/services/transactions.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 export interface Item {
   email: string;
@@ -43,6 +42,8 @@ export class MoneyTransferComponent implements OnInit {
   showEmailInput: boolean = false;
   moneyTransferForm: FormGroup;
   walletData: WalletItem;
+  loading = false;
+
 
   constructor(
     private userService: UserService,
@@ -50,7 +51,8 @@ export class MoneyTransferComponent implements OnInit {
     private formBuilder: FormBuilder,
     private transactionsService: TransactionsService,
     private walletService: WalletService,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit() {
@@ -60,11 +62,9 @@ export class MoneyTransferComponent implements OnInit {
     });
 
     const user = this.userService.getUserLoggedIn();
-    console.log('user', user);
 
     if (user) {
       const userId = user.uid;
-      console.log('userId', userId);
 
       this.walletService
         .getWalletByUserId(userId)
@@ -72,16 +72,15 @@ export class MoneyTransferComponent implements OnInit {
           if (!querySnapshot.empty) {
             const firstDocument = querySnapshot.docs[0].data();
             this.walletData = firstDocument;
-            console.log('this.walletData', this.walletData);
           } else {
-            console.log('No wallet data found');
+            this.snackbarService.openSnackBar("No wallet data found'");
           }
         })
         .catch((error) => {
-          console.error('Error fetching wallet data:', error);
+          this.snackbarService.openSnackBar(error);
         });
     } else {
-      console.log('No user logged in');
+      this.snackbarService.openSnackBar('No user logged in');
     }
   }
 
@@ -99,7 +98,7 @@ export class MoneyTransferComponent implements OnInit {
     if (!this.moneyTransferForm.valid) {
       return null;
     }
-
+    this.loading = true;
     const email_address = this.moneyTransferForm.value.email;
 
     try {
@@ -137,18 +136,7 @@ export class MoneyTransferComponent implements OnInit {
 
           if (senderCurrentAmount >= amount) {
             const senderNewAmount = senderCurrentAmount - amount;
-            console.log(
-              'SENDER AMOUNTS - Current - New',
-              senderCurrentAmount,
-              senderNewAmount
-            );
             const recipientNewAmount = recipientCurrentAmount + amount;
-            console.log(
-              'RECIPIENT AMOUNTS - Current - New',
-              recipientCurrentAmount,
-              recipientNewAmount
-            );
-
             await this.walletService.updateWalletBalance(
               senderWalletId,
               senderNewAmount
@@ -163,23 +151,37 @@ export class MoneyTransferComponent implements OnInit {
               trans_type: 'transfer',
               trans_amount: amount,
             };
+            this.loading = false;
             this.transactionsService.createTransaction(transactionItem);
-            
 
-            console.log('Wallets updated successfully!');
+            this.snackbarService.openSnackBar(
+              'Money has been transfered successfuly'
+            );
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
           } else {
-            console.log(
-              'Sender does not have enough balance for the transfer.'
+            this.loading = false;
+            this.snackbarService.openSnackBar(
+              'Insufficient Balance. Top up to continue'
             );
           }
         } else {
-          console.log('Sender or recipient wallet not found.');
+          this.loading = false;
+          this.snackbarService.openSnackBar(
+            'Sender or Recipient wallet not found.'
+          );
         }
       } else {
-        console.log('User with provided email not found!');
+        this.loading = false;
+        this.snackbarService.openSnackBar(
+          'User not found. Kindly provide a correct email address of an existing user'
+        );
       }
     } catch (error) {
-      console.error('Error during wallet update:', error);
+      this.loading = false;
+      this.snackbarService.openSnackBar(error);
     }
   }
 
@@ -187,7 +189,7 @@ export class MoneyTransferComponent implements OnInit {
     if (!this.moneyTransferForm.valid) {
       return null;
     }
-
+    this.loading = true;
     const user = this.userService.getUserLoggedIn();
 
     try {
@@ -203,7 +205,7 @@ export class MoneyTransferComponent implements OnInit {
         const newAmount = currentAmount + amount;
 
         await this.walletService.updateWalletBalance(walletId, newAmount);
-        console.log('Wallet updated successfully!');
+        this.snackbarService.openSnackBar('Successful Wallet Top Up ');
 
         const transactionItem: TransactionItem = {
           user_id: user.uid,
@@ -212,11 +214,20 @@ export class MoneyTransferComponent implements OnInit {
         };
         this.transactionsService.createTransaction(transactionItem);
 
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        this.loading = false;
+
       } else {
-        console.log('No wallet found for the specified userId.');
+        this.loading = false;
+
+        this.snackbarService.openSnackBar('No Wallet Found');
       }
     } catch (error) {
-      console.error('Error during wallet update:', error);
+      this.loading = false;
+
+      this.snackbarService.openSnackBar(error);
     }
   }
 }

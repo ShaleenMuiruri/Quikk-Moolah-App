@@ -19,11 +19,9 @@ export class UserService {
     if (userData) {
       return JSON.parse(userData);
     } else {
-      console.log('User data not found in localStorage');
       return null;
     }
   }
-
 
   geUsersByEmail(user_id: string): Promise<QuerySnapshot<any>> {
     return this.usersCollection.ref.where('user_id', '==', user_id).get();

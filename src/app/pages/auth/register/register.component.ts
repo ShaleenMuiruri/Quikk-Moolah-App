@@ -12,6 +12,7 @@ import {
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 export interface UserItem {
   user_id: string;
   email_address: string;
@@ -24,6 +25,7 @@ export interface UserItem {
 export class RegisterComponent {
   hide: boolean = true;
   hideConfirmPassword: boolean = true;
+  loading: boolean = false;
 
   registerForm: FormGroup = new FormGroup(
     {
@@ -58,26 +60,28 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private snackbarService: SnackbarService
   ) {
     this.userCollection = afs.collection<UserItem>('users');
     this.items = this.userCollection.valueChanges();
   }
 
   registerWithEmailAndPassword() {
+    this.loading = true;
     const payload = Object.assign(this.registerForm.value);
     this.authService
       .registerWithEmailAndPassword(payload)
       .then((res: any) => {
         const user = res.user;
-
         this.addItem({ user_id: user.uid, email_address: user.email });
         this.router.navigateByUrl('auth/login');
-        // this.toast.success('Registration successful');
+        this.snackbarService.openSnackBar('Registration Successful');
+        this.loading = false;
       })
       .catch((error: any) => {
-        console.error('error', error);
-        // this.toast.error(error);
+        this.loading = false;
+        this.snackbarService.openSnackBar(error);
       });
   }
   private userCollection: AngularFirestoreCollection<UserItem>;

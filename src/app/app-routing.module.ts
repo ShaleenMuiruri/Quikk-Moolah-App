@@ -16,6 +16,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { LandingComponent } from './pages/landing/landing.component';
 
 
 @Injectable({
@@ -47,7 +48,11 @@ export class AuthGuard implements CanActivate {
 }
 
 const routes: Routes = [
-  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '', redirectTo: 'landing', pathMatch: 'full' },
+  {
+    path: 'landing',
+    component: LandingComponent,
+  },
   {
     path: 'auth/login',
     component: LoginComponent,

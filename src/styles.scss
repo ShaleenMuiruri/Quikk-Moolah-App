@@ -1,31 +1,51 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-*{
-    margin: 0;
-    box-sizing: border-box;
-    padding: 0;
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+* {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
 }
 
-.btn{
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    align-items: center;
-    font-weight: bold;
-    outline: none;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
+.btn {
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  font-weight: bold;
+  outline: none;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-.btn-fill{
-    background-color: #191919;
-    color: rgb(255, 255, 255);
+.btn-fill {
+  border: none;
+  background-color: #191919;
+  color: rgb(255, 255, 255);
 }
 
-.btn:disabled{
-    background-color:  #878787;
+.back-btn-fill {
+  border: 1px solid rgb(0, 0, 0);
+  margin-top: 10px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
 }
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+
+.get-started-btn-fill {
+  border: none;
+  height: 40px;
+  border-radius: 5px;
+  width: 100px;
+  background-color: #191919;
+  color: rgb(255, 255, 255);
+}
+
+.btn:disabled {
+  background-color: #878787;
+}

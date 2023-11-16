@@ -30,22 +30,17 @@ export class HomeComponent {
 
   ngOnInit() {
     const user = this.userService.getUserLoggedIn();
-    console.log('user', user);
 
     if (user) {
       const userId = user.uid;
-      console.log('userId', userId);
-
       this.transactionsService
         .getTotalTransfered(userId)
         .then((res) => {
           this.totalTransfered = res;
-          console.log('res', res);
         })
         .catch((error) => {
-          console.error('Error fetching transaction total:', error);
+          error;
         });
-
 
       this.walletService
         .getWalletByUserId(userId)
@@ -53,17 +48,13 @@ export class HomeComponent {
           if (!querySnapshot.empty) {
             const firstDocument = querySnapshot.docs[0].data();
             this.walletData = firstDocument;
-            console.log('this.walletData', this.walletData);
           } else {
-            console.log('No wallet data found');
           }
         })
         .catch((error) => {
-          console.error('Error fetching wallet data:', error);
+          error;
         });
     } else {
-      console.log('No user logged in');
     }
   }
-  
 }

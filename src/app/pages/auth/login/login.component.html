@@ -32,7 +32,7 @@
         <mat-error *ngIf="loginForm.controls['password'].hasError('required')"
           >Password is required</mat-error>
       </mat-form-field>
-      <button class="btn btn-fill" (click)="loginWithEmailAndPassword()" [disabled]="loginForm.invalid">Login</button>
+      <button class="btn btn-fill" (click)="loginWithEmailAndPassword()" [disabled]="loading || loginForm.invalid">Login</button>
       <p class="alternative">Don't have an account? <span [routerLink]="['/auth/register']">Register</span></p>
 
       <div class="or-line-divider">
