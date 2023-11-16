@@ -5,8 +5,10 @@ main {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
   height: 100vh;
+  @media (max-width: 400px) {
+    height: auto;
+  }
 }
 .register-container {
   width: 100%;
