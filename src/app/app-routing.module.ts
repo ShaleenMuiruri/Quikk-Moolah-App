@@ -16,7 +16,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { User } from 'firebase/auth';
+
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +36,7 @@ export class AuthGuard implements CanActivate {
       take(1),
       map((user) => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user))
+          localStorage.setItem('user', JSON.stringify(user));
           return true;
         } else {
           return this.router.createUrlTree(['/auth/login']);
@@ -70,6 +70,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
+
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

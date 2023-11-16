@@ -19,11 +19,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     cursor: pointer;
 }
 
-.btnFill{
-    background-color: #7d2424;
-    color: rgb(157, 48, 48);
+.btn-fill{
+    background-color: #191919;
+    color: rgb(255, 255, 255);
 }
 
-.button:disabled{
-    background: rgb(black, 0.4);
+.btn:disabled{
+    background-color:  #878787;
 }
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';

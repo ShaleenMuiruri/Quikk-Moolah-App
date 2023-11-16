@@ -32,7 +32,6 @@ export interface WalletItem {
 interface UserData {
   email_address: string;
   user_id: string;
-  // Other fields in your 'users' collection
 }
 
 @Component({

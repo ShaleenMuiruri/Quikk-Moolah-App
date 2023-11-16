@@ -17,11 +17,11 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 import { environment } from 'src/environments/environment';
 import { HomeComponent } from './pages/dashboard/home/home.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCardModule} from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
 import { MoneyTransferComponent } from './pages/dashboard/money-transfer/money-transfer.component';
 import { NavbarComponent } from 'src/components/navbar/navbar.component';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -31,8 +31,8 @@ import { NavbarComponent } from 'src/components/navbar/navbar.component';
     GoogleLoginCardComponent,
     NavbarComponent,
     HomeComponent,
-    MoneyTransferComponent
-    ],
+    MoneyTransferComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -46,10 +46,10 @@ import { NavbarComponent } from 'src/components/navbar/navbar.component';
     MatCardModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule
-
+    AngularFirestoreModule,
+    NgbModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

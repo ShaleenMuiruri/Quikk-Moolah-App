@@ -21,7 +21,10 @@
     <mat-form-field appearance="outline">
       <mat-label>Amount (KES)</mat-label>
       <input matInput type="text" placeholder="10" formControlName="amount" />
+      <mat-error *ngIf="moneyTransferForm.controls['amount'].hasError('required')"
+        >Amount is required</mat-error
+      >
     </mat-form-field>
+    <button class="btn btn-fill" (click)="showEmailInput? transferMoney() : topUp()" [disabled]="moneyTransferForm.invalid">Send</button>
   </div>
-  <button class="btn btn-fill" (click)="showEmailInput? transferMoney() : topUp()" >Send</button>
 </div>

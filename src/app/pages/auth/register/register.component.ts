@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 import {
   FormControl,
   FormGroup,
@@ -7,7 +10,6 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HotToastService } from '@ngneat/hot-toast';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 export interface UserItem {
@@ -26,7 +28,6 @@ export class RegisterComponent {
   registerForm: FormGroup = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),
-      phoneNumber: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required]),
     },
@@ -57,7 +58,6 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toast: HotToastService,
     private afs: AngularFirestore
   ) {
     this.userCollection = afs.collection<UserItem>('users');
@@ -69,24 +69,22 @@ export class RegisterComponent {
     this.authService
       .registerWithEmailAndPassword(payload)
       .then((res: any) => {
-        const user = res.user
-        
-        this.addItem({user_id: user.uid, email_address: user.email});
+        const user = res.user;
+
+        this.addItem({ user_id: user.uid, email_address: user.email });
         this.router.navigateByUrl('auth/login');
-        this.toast.success('Registration successful');
+        // this.toast.success('Registration successful');
       })
       .catch((error: any) => {
         console.error('error', error);
-        this.toast.error(error);
+        // this.toast.error(error);
       });
   }
   private userCollection: AngularFirestoreCollection<UserItem>;
 
   items: Observable<UserItem[]>;
 
-
   addItem(item: UserItem) {
     this.userCollection.add(item);
   }
-
 }

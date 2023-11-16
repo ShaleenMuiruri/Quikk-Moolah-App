@@ -1,5 +1,6 @@
 <main>
   <div class="register-container">
+    <h1>Quikk Moolah</h1>
     <div [formGroup]="registerForm" class="register-content">
       <p class="title">Sign Up</p>
       <p class="sub-title">Register an account</p>
@@ -16,19 +17,6 @@
         >
         <mat-error *ngIf="registerForm.controls['email'].hasError('email')"
           >Invalid Email</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Phone Number</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="0700 000 000"
-          formControlName="phoneNumber"
-        />
-        <mat-error
-          *ngIf="registerForm.controls['phoneNumber'].hasError('required')"
-          >Phone Number is required</mat-error
         >
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -71,7 +59,7 @@
 
       <button class="btn btn-fill" (click)="registerWithEmailAndPassword()" [disabled]="registerForm.invalid">Register</button>
       <p class="alternative">
-        Have an account?<span [routerLink]="['/auth/login']">Login</span>
+        Have an account? <span [routerLink]="['/auth/login']">Login</span>
       </p>
     </div>
   </div>
