@@ -38,4 +38,17 @@ export class WalletService {
     const walletRef = this.afs.collection('wallet').doc(walletId);
     return walletRef.update({ wallet_balance: newAmount });
   }
+
+  checkWalletExists(uid: string): Promise<boolean> {
+    return this.existsInCollection('user_id', uid, this.walletsCollection);
+  }
+  private async existsInCollection(
+    field: string,
+    value: any,
+    collection: AngularFirestoreCollection<any>
+  ): Promise<boolean> {
+    const snapshot = await collection.ref.where(field, '==', value).get();
+    return !snapshot.empty;
+  }
+
 }

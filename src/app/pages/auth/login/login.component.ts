@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { WalletService } from 'src/app/services/wallet.service';
+import { UserService } from 'src/app/services/user.service';
 export interface WalletItem {
   user_id: string;
   wallet_balance: number;
@@ -40,6 +42,8 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private afs: AngularFirestore,
+    private walletService: WalletService,
+    private userService: UserService,
     private snackbarService: SnackbarService
   ) {
     this.walletCollection = afs.collection<WalletItem>('wallet');
@@ -55,11 +59,11 @@ export class LoginComponent {
         this.router.navigateByUrl('dashboard/home');
         const uid = res.user.uid;
 
-        const walletExists = await this.checkWalletExists(uid);
+        const walletExists = await this.walletService.checkWalletExists(uid);
         if (!walletExists) {
           this.addWalletItem({ user_id: uid, wallet_balance: 0 });
         }
-        const userExists = await this.checkUserExists(uid);
+        const userExists = await this.userService.checkUserExists(uid);
         if (!userExists) {
           this.addUserItem({ user_id: uid, email_address: res.user.email });
         }
@@ -78,7 +82,7 @@ export class LoginComponent {
       .then(async (res) => {
         this.router.navigateByUrl('dashboard/home');
         const uid = res.user.uid;
-        const walletExists = await this.checkWalletExists(uid);
+        const walletExists = await this.walletService.checkWalletExists(uid);
         if (!walletExists) {
           this.addWalletItem({ user_id: uid, wallet_balance: 0 });
         }
@@ -105,19 +109,19 @@ export class LoginComponent {
     this.usersCollection.add(item);
   }
 
-  async checkWalletExists(uid: string): Promise<boolean> {
-    const snapshot = await this.walletCollection.ref
-      .where('user_id', '==', uid)
-      .get();
+  // async checkWalletExists(uid: string): Promise<boolean> {
+  //   const snapshot = await this.walletCollection.ref
+  //     .where('user_id', '==', uid)
+  //     .get();
 
-    return !snapshot.empty;
-  }
+  //   return !snapshot.empty;
+  // }
 
-  async checkUserExists(uid: string): Promise<boolean> {
-    const snapshot = await this.usersCollection.ref
-      .where('user_id', '==', uid)
-      .get();
+  // async checkUserExists(uid: string): Promise<boolean> {
+  //   const snapshot = await this.usersCollection.ref
+  //     .where('user_id', '==', uid)
+  //     .get();
 
-    return !snapshot.empty;
-  }
+  //   return !snapshot.empty;
+  // }
 }

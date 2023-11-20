@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { UserService } from 'src/app/services/user.service';
+import { WalletService } from 'src/app/services/wallet.service';
+import { WalletItem } from '../../dashboard/money-transfer/money-transfer.component';
 export interface UserItem {
   user_id: string;
   email_address: string;
@@ -61,10 +64,18 @@ export class RegisterComponent {
     private authService: AuthService,
     private router: Router,
     private afs: AngularFirestore,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private walletService: WalletService,
+    private userService: UserService,
   ) {
     this.userCollection = afs.collection<UserItem>('users');
     this.items = this.userCollection.valueChanges();
+
+    this.walletCollection = afs.collection<WalletItem>('wallet');
+    this.walletItems = this.walletCollection.valueChanges();
+
+    this.usersCollection = afs.collection<UserItem>('users');
+    this.userItems = this.usersCollection.valueChanges();
   }
 
   registerWithEmailAndPassword() {
@@ -84,11 +95,46 @@ export class RegisterComponent {
         this.snackbarService.openSnackBar(error);
       });
   }
+
+  loginWithGoogle() {
+    this.authService
+      .signInWithGoogle()
+      .then(async (res) => {
+        this.router.navigateByUrl('dashboard/home');
+        const uid = res.user.uid;
+
+        const walletExists = await this.walletService.checkWalletExists(uid);
+        if (!walletExists) {
+          this.addWalletItem({ user_id: uid, wallet_balance: 0 });
+        }
+        const userExists = await this.userService.checkUserExists(uid);
+        if (!userExists) {
+          this.addUserItem({ user_id: uid, email_address: res.user.email });
+        }
+        this.snackbarService.openSnackBar("Login Successful");
+      })
+      .catch((err) => {
+        this.snackbarService.openSnackBar(err);
+      });
+  }
+
+  
   private userCollection: AngularFirestoreCollection<UserItem>;
-
   items: Observable<UserItem[]>;
-
   addItem(item: UserItem) {
     this.userCollection.add(item);
   }
+
+  private walletCollection: AngularFirestoreCollection<WalletItem>;
+  walletItems: Observable<WalletItem[]>;
+  addWalletItem(item: WalletItem) {
+    this.walletCollection.add(item);
+  }
+
+  private usersCollection: AngularFirestoreCollection<UserItem>;
+  userItems: Observable<UserItem[]>;
+  addUserItem(item: UserItem) {
+    this.usersCollection.add(item);
+  }
+
 }

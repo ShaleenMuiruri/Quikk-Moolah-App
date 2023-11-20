@@ -26,4 +26,18 @@ export class UserService {
   geUsersByEmail(user_id: string): Promise<QuerySnapshot<any>> {
     return this.usersCollection.ref.where('user_id', '==', user_id).get();
   }
+
+
+  checkUserExists(uid: string): Promise<boolean> {
+    return this.existsInCollection('user_id', uid, this.usersCollection);
+  }
+
+  private async existsInCollection(
+    field: string,
+    value: any,
+    collection: AngularFirestoreCollection<any>
+  ): Promise<boolean> {
+    const snapshot = await collection.ref.where(field, '==', value).get();
+    return !snapshot.empty;
+  }
 }

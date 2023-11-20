@@ -1,6 +1,6 @@
 <main>
   <div class="register-container">
-    <h1>Quikk Moolah</h1>
+    <h1 [routerLink]="['/landing']">Quikk Moolah</h1>
     <div [formGroup]="registerForm" class="register-content">
       <p class="title">Sign Up</p>
       <p class="sub-title">Register an account</p>
@@ -57,10 +57,23 @@
         >
       </mat-form-field>
 
-      <button class="btn btn-fill" (click)="registerWithEmailAndPassword()" [disabled]="loading || registerForm.invalid">Register</button>
+      <button
+        class="btn btn-fill"
+        (click)="registerWithEmailAndPassword()"
+        [disabled]="loading || registerForm.invalid"
+      >
+        Register
+      </button>
       <p class="alternative">
         Have an account? <span [routerLink]="['/auth/login']">Login</span>
       </p>
+
+      <div class="or-line-divider">
+        <p>or</p>
+      </div>
+      <div class="google-card" (click)="loginWithGoogle()">
+        <app-google-login-card></app-google-login-card>
+      </div>
     </div>
   </div>
 </main>
