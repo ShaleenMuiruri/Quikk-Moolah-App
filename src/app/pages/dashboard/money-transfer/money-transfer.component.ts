@@ -11,7 +11,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { WalletService } from 'src/app/services/wallet.service';
 import {
@@ -52,7 +52,8 @@ export class MoneyTransferComponent implements OnInit {
     private transactionsService: TransactionsService,
     private walletService: WalletService,
     private afs: AngularFirestore,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -159,7 +160,7 @@ export class MoneyTransferComponent implements OnInit {
             );
 
             setTimeout(() => {
-              window.location.reload();
+              this.router.navigate(['/dashboard/home']);
             }, 1000);
           } else {
             this.loading = false;
@@ -215,7 +216,7 @@ export class MoneyTransferComponent implements OnInit {
         this.transactionsService.createTransaction(transactionItem);
 
         setTimeout(() => {
-          window.location.reload();
+          this.router.navigate(['/dashboard/home']);
         }, 1000);
         this.loading = false;
 
